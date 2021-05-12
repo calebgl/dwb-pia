@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model dish {
+  dish_id       Int             @id @default(autoincrement())
+  dish_name     String          @db.VarChar(32)
+  dish_price    Decimal         @db.Money
+  quantity      Float?
+  dish_image    String?         @db.VarChar(128)
+  order_details order_details[]
+}
+
+model employee {
+  employee_id String    @id @db.Uuid
+  username    String    @db.VarChar(16)
+  email       String    @unique @db.VarChar(256)
+  password    String    @db.VarChar(256)
+  role        String    @db.VarChar(8)
+  created_on  DateTime  @db.Timestamptz(6)
+  last_login  DateTime? @db.Timestamptz(6)
+}
+
+model order_details {
+  dish_id       Int
+  order_id      String        @db.Uuid
+  dish          dish          @relation(fields: [dish_id], references: [dish_id])
+  order_request order_request @relation(fields: [order_id], references: [order_id])
+
+  @@id([dish_id, order_id])
+}
+
+model order_request {
+  order_id         String          @id @db.Uuid
+  total            Decimal         @db.Money
+  ship_address     String?         @db.VarChar(128)
+  ship_postal_code String?         @db.VarChar(16)
+  order_date       DateTime?       @db.Timestamptz(6)
+  order_details    order_details[]
+}
