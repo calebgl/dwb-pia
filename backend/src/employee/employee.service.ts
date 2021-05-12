@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -7,6 +7,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { v4 as uuid, validate as uuidValidate } from 'uuid';
 import {
   ThrowBadRequestException,
+  ThrowMethodNotAllowedException,
   ThrowNotFoundException,
 } from 'src/utils/utils';
 
@@ -26,7 +27,7 @@ export class EmployeeService {
         created_on: true,
         last_seen: true,
       },
-      orderBy: { last_seen: 'desc' },
+      orderBy: { created_on: 'asc' },
     });
   }
 
@@ -40,6 +41,11 @@ export class EmployeeService {
   }
 
   async create(createEmployeeDto: CreateEmployeeDto) {
+    if ((await this.findAll()).length > 50)
+      ThrowMethodNotAllowedException(
+        'La cantidad de empleados alcanzó su límite',
+      );
+
     const { username, email, password, role } = createEmployeeDto;
     const hash = await this.authService.hashPassword(password);
 

@@ -14,9 +14,6 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { LoginEmployeeDto } from './dto/login-employee.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { hasRoles } from 'src/auth/decorator/roles.decorator';
-import { EmployeeRoles } from './dto/roles.enum';
 import { CurrentLoginGuard } from 'src/auth/guards/current-login.guard';
 
 @ApiTags('Employee')
@@ -40,16 +37,13 @@ export class EmployeeController {
     return this.employeeService.findAll();
   }
 
-  // @ApiBearerAuth()
-  // @hasRoles(EmployeeRoles.ADMIN)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.employeeService.findOne(id);
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard, CurrentLoginGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, CurrentLoginGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -58,8 +52,14 @@ export class EmployeeController {
     return this.employeeService.update(id, updateEmployeeDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, CurrentLoginGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeeService.remove(id);
   }
+
+  // @ApiBearerAuth()
+  // @hasRoles(EmployeeRoles.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
 }
