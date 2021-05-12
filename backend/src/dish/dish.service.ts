@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Decimal } from '@prisma/client/runtime';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ThrowNotFoundException } from 'src/utils/utils';
+import {
+  ThrowMethodNotAllowedException,
+  ThrowNotFoundException,
+} from 'src/utils/utils';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
 
@@ -10,6 +13,11 @@ export class DishService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createDishDto: CreateDishDto) {
+    if ((await this.findAll()).length > 50)
+      ThrowMethodNotAllowedException(
+        'La cantidad de platillos alcanzó su límite',
+      );
+
     const { dish_name, dish_price, quantity, dish_image } = createDishDto;
 
     return await this.prismaService.dish.create({
@@ -24,7 +32,7 @@ export class DishService {
 
   async findAll() {
     return await this.prismaService.dish.findMany({
-      orderBy: { dish_id: 'desc' },
+      orderBy: { dish_id: 'asc' },
     });
   }
 

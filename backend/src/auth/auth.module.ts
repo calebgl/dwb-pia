@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtStrategy } from './guards/jwt-strategy';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -17,15 +17,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
         signOptions: { expiresIn: 300 },
       }),
     }),
+    PrismaModule,
+    ConfigModule,
   ],
-  providers: [
-    AuthService,
-    RolesGuard,
-    JwtAuthGuard,
-    JwtStrategy,
-    PrismaService,
-    ConfigService,
-  ],
+  providers: [AuthService, RolesGuard, JwtAuthGuard, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

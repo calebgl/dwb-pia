@@ -5,7 +5,7 @@ export class CreateDishDto {
   @ApiProperty()
   dish_name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   dish_price: Decimal;
 
   @ApiProperty()

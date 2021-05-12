@@ -29,6 +29,7 @@ model employee {
 model order_details {
   dish_id       Int
   order_id      String        @db.Uuid
+  amount        Int
   dish          dish          @relation(fields: [dish_id], references: [dish_id])
   order_request order_request @relation(fields: [order_id], references: [order_id])
 
@@ -38,8 +39,8 @@ model order_details {
 model order_request {
   order_id         String          @id @db.Uuid
   total            Decimal         @db.Money
-  ship_address     String?         @db.VarChar(128)
-  ship_postal_code String?         @db.VarChar(16)
-  order_date       DateTime?       @db.Timestamptz(6)
+  ship_address     String          @db.VarChar(128)
+  ship_postal_code String          @db.VarChar(16)
+  order_date       DateTime        @db.Timestamptz(6)
   order_details    order_details[]
 }
