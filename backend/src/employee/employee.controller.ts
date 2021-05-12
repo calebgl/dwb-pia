@@ -40,9 +40,9 @@ export class EmployeeController {
     return this.employeeService.findAll();
   }
 
-  @ApiBearerAuth()
-  @hasRoles(EmployeeRoles.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @ApiBearerAuth()
+  // @hasRoles(EmployeeRoles.ADMIN)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.employeeService.findOne(id);

@@ -1,15 +1,14 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { LoginEmployeeDto } from './dto/login-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { v4 as uuid, validate as uuidValidate } from 'uuid';
-import { normalizeDate } from 'src/utils/utils';
+import {
+  ThrowBadRequestException,
+  ThrowNotFoundException,
+} from 'src/utils/utils';
 
 @Injectable()
 export class EmployeeService {
@@ -17,6 +16,16 @@ export class EmployeeService {
     private prismaService: PrismaService,
     private authService: AuthService,
   ) {}
+
+  async findAll() {
+    return await this.prismaService.employee.findMany({
+      select: this.visibleProperties,
+    });
+  }
+
+  async findOne(id: string) {
+    return await this.findById(id);
+  }
 
   async create(createEmployeeDto: CreateEmployeeDto) {
     const { username, email, password, role } = createEmployeeDto;
@@ -30,59 +39,26 @@ export class EmployeeService {
         password: hash,
         role,
         created_on: new Date(),
+        last_seen: new Date(),
       },
-      select: {
-        employee_id: true,
-        username: true,
-        email: true,
-        created_on: true,
-      },
+      select: this.visibleProperties,
     });
-
-    newEmployee.created_on = normalizeDate(newEmployee.created_on);
 
     return newEmployee;
   }
 
-  async findAll() {
-    const employees = await this.prismaService.employee.findMany({
-      select: {
-        employee_id: true,
-        username: true,
-        email: true,
-        created_on: true,
-      },
-    });
-
-    employees.map((employee) => {
-      employee.created_on = normalizeDate(employee.created_on);
-      return employee;
-    });
-
-    return employees;
-  }
-
-  async findOne(id: string) {
-    const employee = await this.findById(id);
-
-    if (!employee) throw new NotFoundException('Empleado no encontrado');
-
-    return employee;
-  }
-
+  // TODO: evitar que el sa se pueda modificar
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     // return `This action updates a #${id} employee`;
     return updateEmployeeDto;
   }
 
+  // TODO: evitar que el sa se pueda eliminar
   async remove(id: string) {
     const employee = await this.findById(id);
 
-    if (!employee) throw new NotFoundException('Empleado no encontrado');
-
     await this.prismaService.employee.delete({
       where: { employee_id: id },
-      select: { employee_id: true, username: true, email: true },
     });
 
     return employee;
@@ -94,15 +70,15 @@ export class EmployeeService {
       loginEmployeeDto.password,
     );
 
-    if (!employee) return;
-
     const updatedEmployee = await this.prismaService.employee.update({
       where: { employee_id: employee.employee_id },
-      data: { last_login: new Date() },
+      data: { last_seen: new Date() },
     });
 
+    delete updatedEmployee.email;
     delete updatedEmployee.password;
     delete updatedEmployee.created_on;
+    delete updatedEmployee.last_seen;
 
     const jwt = await this.authService.generateJwt(updatedEmployee);
 
@@ -111,41 +87,49 @@ export class EmployeeService {
 
   async validateEmployee(email: string, password: string) {
     const employee = await this.findByMail(email);
-
-    if (!employee) throw new NotFoundException('invalid credentials');
-
     const verify = await this.authService.comparePassword(
       employee.password,
       password,
     );
 
-    if (!verify) throw new BadRequestException('invalid credentials');
+    if (!verify)
+      ThrowBadRequestException(
+        'El correo y contraseña no coindicen con nuestros registros',
+      );
 
     delete employee.password;
+
     return employee;
   }
 
-  async findByMail(email: string) {
-    return await this.prismaService.employee.findFirst({ where: { email } });
+  private async findByMail(email: string) {
+    return await this.prismaService.employee.findUnique({
+      where: { email },
+      select: { ...this.visibleProperties, password: true },
+      rejectOnNotFound: () =>
+        ThrowBadRequestException(
+          'El correo y contraseña no coindicen con nuestros registros',
+        ),
+    });
   }
 
-  private async findById(id: string) {
+  async findById(id: string) {
     if (!uuidValidate(id)) throw new BadRequestException('UUID no válido');
 
     const employee = await this.prismaService.employee.findUnique({
       where: { employee_id: id },
-      select: {
-        employee_id: true,
-        username: true,
-        email: true,
-        created_on: true,
-      },
+      select: this.visibleProperties,
+      rejectOnNotFound: () => ThrowNotFoundException('Empleado no encontrado'),
     });
-
-    if (!employee) throw new NotFoundException('Empleado no encontrado');
-
-    employee.created_on = normalizeDate(employee.created_on);
 
     return employee;
   }
+
+  private visibleProperties = {
+    employee_id: true,
+    username: true,
+    role: true,
+    created_on: true,
+    last_seen: true,
+  };
 }

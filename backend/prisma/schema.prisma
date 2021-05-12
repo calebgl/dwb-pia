@@ -17,13 +17,13 @@ model dish {
 }
 
 model employee {
-  employee_id String    @id @db.Uuid
-  username    String    @db.VarChar(16)
-  email       String    @unique @db.VarChar(256)
-  password    String    @db.VarChar(256)
-  role        String    @db.VarChar(8)
-  created_on  DateTime  @db.Timestamptz(6)
-  last_login  DateTime? @db.Timestamptz(6)
+  employee_id String   @id @db.Uuid
+  username    String   @db.VarChar(16)
+  email       String   @unique @db.VarChar(256)
+  password    String   @db.VarChar(256)
+  role        String   @db.VarChar(8)
+  created_on  DateTime @db.Timestamptz(6)
+  last_seen   DateTime @db.Timestamptz(6)
 }
 
 model order_details {
