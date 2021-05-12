@@ -48,8 +48,8 @@ export class EmployeeController {
     return this.employeeService.findOne(id);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, CurrentLoginGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, CurrentLoginGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,

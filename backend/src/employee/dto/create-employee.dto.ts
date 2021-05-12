@@ -17,4 +17,10 @@ export class CreateEmployeeDto {
     default: EmployeeRoles.COMMON,
   })
   role: EmployeeRoles;
+
+  @ApiHideProperty()
+  created_on: Date;
+
+  @ApiHideProperty()
+  last_seen: Date;
 }

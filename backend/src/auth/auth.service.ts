@@ -11,7 +11,7 @@ export class AuthService {
     private readonly configSerice: ConfigService,
   ) {}
 
-  generateJwt(employee: Employee) {
+  generateJwt(employee: Partial<Employee>) {
     return this.jwtService.signAsync({ employee });
   }
 
