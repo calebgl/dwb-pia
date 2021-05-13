@@ -58,8 +58,4 @@ export class EmployeeController {
   remove(@Param('id') id: string) {
     return this.employeeService.remove(id);
   }
-
-  // @ApiBearerAuth()
-  // @hasRoles(EmployeeRoles.ADMIN)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
 }

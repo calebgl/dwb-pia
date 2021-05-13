@@ -10,6 +10,7 @@ import {
   ThrowMethodNotAllowedException,
   ThrowNotFoundException,
 } from 'src/utils/utils';
+import { EmployeeRoles } from './dto/roles.enum';
 
 @Injectable()
 export class EmployeeService {
@@ -47,6 +48,10 @@ export class EmployeeService {
       );
 
     const { username, email, password, role } = createEmployeeDto;
+
+    if (role !== EmployeeRoles.SUPERIOR && role !== EmployeeRoles.COMMON)
+      ThrowBadRequestException('Rol no encontrado');
+
     const hash = await this.authService.hashPassword(password);
 
     const newEmployee = await this.prismaService.employee.create({

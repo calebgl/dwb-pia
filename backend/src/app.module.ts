@@ -4,10 +4,16 @@ import { EmployeeModule } from './employee/employee.module';
 import { DishModule } from './dish/dish.module';
 import { OrderModule } from './order/order.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, EmployeeModule, DishModule, OrderModule, PrismaModule],
-  // controllers: [AppController],
-  // providers: [AppService, PrismaService],
+  imports: [
+    ConfigModule.forRoot(),
+    AuthModule,
+    EmployeeModule,
+    DishModule,
+    OrderModule,
+    PrismaModule,
+  ],
 })
 export class AppModule {}

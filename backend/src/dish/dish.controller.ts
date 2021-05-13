@@ -25,7 +25,7 @@ export class DishController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @hasRoles(EmployeeRoles.ADMIN, EmployeeRoles.SUPERIOR)
+  @hasRoles('admin', EmployeeRoles.SUPERIOR)
   @Post()
   create(@Body() createDishDto: CreateDishDto) {
     return this.dishService.create(createDishDto);
@@ -43,7 +43,7 @@ export class DishController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @hasRoles(EmployeeRoles.ADMIN, EmployeeRoles.SUPERIOR)
+  @hasRoles('admin', EmployeeRoles.SUPERIOR)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -54,7 +54,7 @@ export class DishController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @hasRoles(EmployeeRoles.ADMIN, EmployeeRoles.SUPERIOR)
+  @hasRoles('admin', EmployeeRoles.SUPERIOR)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.dishService.remove(id);
