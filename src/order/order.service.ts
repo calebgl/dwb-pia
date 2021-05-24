@@ -77,6 +77,9 @@ export class OrderService {
   // después mostrarla en la petición.
   async remove(id: string) {
     await this.findOne(id);
+    await this.prismaService.order_details.deleteMany({
+      where: { order_id: id },
+    });
     return await this.prismaService.order_request.delete({
       where: { order_id: id },
     });
