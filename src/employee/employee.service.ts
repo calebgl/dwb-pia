@@ -11,6 +11,7 @@ import {
   ThrowNotFoundException,
 } from 'src/utils/utils';
 import { UpdateEmployeePasswordDto } from './dto/update-employee-password.dto';
+import { employee } from '.prisma/client';
 
 @Injectable()
 export class EmployeeService {
@@ -89,14 +90,12 @@ export class EmployeeService {
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     const employee = await this.findById(id);
 
-    if (employee.username === 'admin')
-      ThrowMethodNotAllowedException(
-        'No puedes modificar al System Administrator',
-      );
+    if (employee.email !== 'admin@email.com') {
+      employee.username = updateEmployeeDto.username ?? employee.username;
+      employee.email = updateEmployeeDto.email ?? employee.email;
+      employee.role = updateEmployeeDto.role ?? employee.role;
+    }
 
-    employee.username = updateEmployeeDto.username ?? employee.username;
-    employee.email = updateEmployeeDto.email ?? employee.email;
-    employee.role = updateEmployeeDto.role ?? employee.role;
     employee.last_seen = new Date();
 
     const updatedEmployee = await this.prismaService.employee.update({
@@ -122,7 +121,7 @@ export class EmployeeService {
   async remove(id: string) {
     const removedEmployee = await this.findById(id);
 
-    if (removedEmployee.username === 'admin')
+    if (removedEmployee.email === 'admin@email.com')
       ThrowMethodNotAllowedException(
         'No puedes eliminar al System Administrator',
       );
@@ -207,8 +206,11 @@ export class EmployeeService {
 
   async updatePassword(updateEmployeePasswordDto: UpdateEmployeePasswordDto) {
     const { email, oldPassword, newPassword } = updateEmployeePasswordDto;
-    const employee = await this.validateEmployee(email, oldPassword);
 
+    if (email === 'admin@email.com')
+      ThrowMethodNotAllowedException('No puedes cambiar la constraseña del SA');
+
+    const employee = await this.validateEmployee(email, oldPassword);
     const hash = await this.authService.hashPassword(newPassword);
 
     const updatedEmployee = await this.prismaService.employee.update({

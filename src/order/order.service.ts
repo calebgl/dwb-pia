@@ -69,7 +69,7 @@ export class OrderService {
 
     return await this.prismaService.order_request.findUnique({
       where: { order_id: id },
-      rejectOnNotFound: () => ThrowNotFoundException('Platillo no encontrado'),
+      rejectOnNotFound: () => ThrowNotFoundException('Orden no encontrada'),
     });
   }
 
