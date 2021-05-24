@@ -32,6 +32,7 @@ export class EmployeeController {
     return { access_token };
   }
 
+  // @ApiOkResponse({ isArray: true })
   @Get()
   findAll() {
     return this.employeeService.findAll();
