@@ -15,6 +15,7 @@ import { LoginEmployeeDto } from './dto/login-employee.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentLoginGuard } from 'src/auth/guards/current-login.guard';
+import { UpdateEmployeePasswordDto } from './dto/update-employee-password.dto';
 
 @ApiTags('Employee')
 @Controller('employee')
@@ -58,5 +59,10 @@ export class EmployeeController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employeeService.remove(id);
+  }
+
+  @Patch()
+  updatePassword(@Body() updateEmployeePasswordDto: UpdateEmployeePasswordDto) {
+    return this.employeeService.updatePassword(updateEmployeePasswordDto);
   }
 }

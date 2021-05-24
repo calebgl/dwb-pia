@@ -10,7 +10,7 @@ import {
   ThrowMethodNotAllowedException,
   ThrowNotFoundException,
 } from 'src/utils/utils';
-import e from 'express';
+import { UpdateEmployeePasswordDto } from './dto/update-employee-password.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -203,5 +203,23 @@ export class EmployeeService {
     });
 
     return employee;
+  }
+
+  async updatePassword(updateEmployeePasswordDto: UpdateEmployeePasswordDto) {
+    const { email, oldPassword, newPassword } = updateEmployeePasswordDto;
+    const employee = await this.validateEmployee(email, oldPassword);
+
+    const hash = await this.authService.hashPassword(newPassword);
+
+    const updatedEmployee = await this.prismaService.employee.update({
+      where: { employee_id: employee.employee_id },
+      data: { password: hash },
+    });
+
+    delete updatedEmployee.created_on;
+    delete updatedEmployee.last_seen;
+    delete updatedEmployee.password;
+
+    return updatedEmployee;
   }
 }
