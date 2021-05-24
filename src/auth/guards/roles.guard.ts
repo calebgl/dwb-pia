@@ -11,6 +11,8 @@ export class RolesGuard implements CanActivate {
     private prismaService: PrismaService,
   ) {}
 
+  // Verifica si el empleado cuenta con un rol adecuado
+  // para realizar ciertas acciones.
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

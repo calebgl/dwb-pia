@@ -10,7 +10,7 @@ import {
   ThrowMethodNotAllowedException,
   ThrowNotFoundException,
 } from 'src/utils/utils';
-import { EmployeeRoles } from './dto/roles.enum';
+import e from 'express';
 
 @Injectable()
 export class EmployeeService {
@@ -19,6 +19,9 @@ export class EmployeeService {
     private authService: AuthService,
   ) {}
 
+  // Busca todos los empleados guardados en la base de datos,
+  // ordenándolos por la fecha de creación y selecciona
+  // solo ciertos parámetros para mostrarlos en la petición.
   async findAll() {
     return await this.prismaService.employee.findMany({
       select: {
@@ -32,6 +35,8 @@ export class EmployeeService {
     });
   }
 
+  // Busca un empleado en base a un id (UUID) y elimina
+  // información sensitiva para mostrarlo en la petición.
   async findOne(id: string) {
     const employee = await this.findById(id);
 
@@ -41,6 +46,11 @@ export class EmployeeService {
     return employee;
   }
 
+  // Crea un empleado en la base de datos, posteriormente
+  // elimina información sensitiva para mostrarlo en la
+  // petición.
+  // En el dado caso de que existan 50 empleados ya
+  // registrados, regresará un error.
   async create(createEmployeeDto: CreateEmployeeDto) {
     if ((await this.findAll()).length > 50)
       ThrowMethodNotAllowedException(
@@ -48,9 +58,6 @@ export class EmployeeService {
       );
 
     const { username, email, password, role } = createEmployeeDto;
-
-    if (role !== EmployeeRoles.SUPERIOR && role !== EmployeeRoles.COMMON)
-      ThrowBadRequestException('Rol no encontrado');
 
     const hash = await this.authService.hashPassword(password);
 
@@ -73,9 +80,19 @@ export class EmployeeService {
     return newEmployee;
   }
 
-  // TODO: evitar que el sa se pueda modificar
+  // Actualiza un empleado en la base de datos, posteriormente
+  // elimina información sensitiva para mostrarlo en la
+  // petición.
+  // No se pueden modificar los valores para al sa,
+  // si se intenta lanza una excepción de método
+  // no permitido.
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     const employee = await this.findById(id);
+
+    if (employee.username === 'admin')
+      ThrowMethodNotAllowedException(
+        'No puedes modificar al System Administrator',
+      );
 
     employee.username = updateEmployeeDto.username ?? employee.username;
     employee.email = updateEmployeeDto.email ?? employee.email;
@@ -97,9 +114,18 @@ export class EmployeeService {
     return updatedEmployee;
   }
 
-  // TODO: evitar que el sa se pueda eliminar
+  // Elimina un empleado en la base de datos, posteriormente
+  // elimina información sensitiva para mostrarlo en la
+  // petición.
+  // No se pueden eliminar al sa, si se intenta
+  // lanza una excepción de método no permitido.
   async remove(id: string) {
     const removedEmployee = await this.findById(id);
+
+    if (removedEmployee.username === 'admin')
+      ThrowMethodNotAllowedException(
+        'No puedes eliminar al System Administrator',
+      );
 
     await this.prismaService.employee.delete({
       where: { employee_id: id },
@@ -111,6 +137,8 @@ export class EmployeeService {
     return removedEmployee;
   }
 
+  // Si un empleado inicia sesión correctamente
+  // envía un JWT token.
   async login(loginEmployeeDto: LoginEmployeeDto) {
     const employee = await this.validateEmployee(
       loginEmployeeDto.email,
@@ -129,6 +157,8 @@ export class EmployeeService {
     return jwt;
   }
 
+  // Verifica que las credenciales propocionadas
+  // coincidan con los registros de la base de datos.
   async validateEmployee(email: string, password: string) {
     const employee = await this.findByMail(email);
     const verify = await this.authService.comparePassword(
@@ -147,6 +177,9 @@ export class EmployeeService {
     return employee;
   }
 
+  // Encuentra un empleado en base al correo
+  // electrónico. Si este no es encontrado lanza
+  // una error de solicitud incorrecta.
   private async findByMail(email: string) {
     return await this.prismaService.employee.findUnique({
       where: { email },
@@ -157,6 +190,10 @@ export class EmployeeService {
     });
   }
 
+  // Busca un empleado en base a un id (UUID).
+  // En caso de que el UUID proporcionado no sea
+  // adecuado lanza una excepción. Lo mismo sucede
+  // si el empleado no fue encontrado.
   private async findById(id: string) {
     if (!uuidValidate(id)) ThrowBadRequestException('UUID no válido');
 

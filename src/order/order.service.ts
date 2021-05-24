@@ -16,6 +16,9 @@ export class OrderService {
     private dishService: DishService,
   ) {}
 
+  // Crea una orden cálculando el total a pagar.
+  // Una vez hecho el registro, regresa la orden
+  // para mostrarla en la petición
   async create(createOrderDto: CreateOrderDto) {
     const { dish_ids, ship_address, ship_postal_code } = createOrderDto;
     const order_id = uuid();
@@ -46,12 +49,21 @@ export class OrderService {
     });
   }
 
+  // Busca todas las ordenes hechas en la base
+  // de datos, las ordena de manera descentente en base
+  // a la fecha de orden para así mostrarlas en
+  // la petición.
   async findAll() {
     return await this.prismaService.order_request.findMany({
       orderBy: { order_date: 'desc' },
     });
   }
 
+  // Busca una orden en específico en base al id (UUID)
+  // para mostrarla en la petición.
+  // Si el id no es válido lanza una excepción.
+  // Asímismo, si la orden no fue encontranda, lanza una
+  // excepción de no encontrado.
   async findOne(id: string) {
     if (!uuidValidate(id)) ThrowBadRequestException('UUID no válido');
 
@@ -61,6 +73,8 @@ export class OrderService {
     });
   }
 
+  // Elimina una orden en base de un id (UUID) para
+  // después mostrarla en la petición.
   async remove(id: string) {
     await this.findOne(id);
     return await this.prismaService.order_request.delete({

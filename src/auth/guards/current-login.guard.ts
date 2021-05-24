@@ -11,12 +11,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CurrentLoginGuard implements CanActivate {
-  constructor(
-    // @Inject(forwardRef(() => EmployeeService))
-    // private employeeService: EmployeeService,
-    private prismaService: PrismaService,
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
+  // Verifica si el empleado puede actualizar o eliminar
+  // información acerca de si mismo u otros.
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
