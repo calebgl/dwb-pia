@@ -22,7 +22,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 1. Instalar [PostgreSQL y PgAdmin 4](https://www.postgresql.org/download/).
 1. Generar una conexión local (recordar el usuario y contraseña).
 1. Crear una base de datos (recordar el nombre)
-1. Ejecutar el script ubicado en `dwb-pia/database.sql`.
+1. Ejecutar el script ubicado en `dwb-pia/database.sql` en la respectiva base de datos.
 
 ### Backend
 
