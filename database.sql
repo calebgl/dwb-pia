@@ -69,3 +69,22 @@ ALTER COLUMN "order_date" SET NOT NULL;
 
 -- AlterColumn
 ALTER TABLE "order_details" ADD COLUMN     "amount" INTEGER NOT NULL;
+
+INSERT INTO employee (employee_id, username, email, password, created_on, role, last_seen) VALUES ('032d7efb-6567-4ecc-90a2-567a597d1fe9'  ,  'EpicMario'  ,  'lara_mario2000@hotmail.com'  ,  '$argon2i$v=19$m=4096,t=3,p=1$CpveSJwvW7zvvLbNWOBx8w$HhuF03mb52Aw6TVnXQ2kwXPsFD+8xj9S144LebnK6u2Yxq0MeQdeIe5NwHtGbvwSGMYunbHTIgJ6gDqsVrGoxje49/j4E6Ef'  ,  '2021-05-13 00:28:26.49+00'  ,  'admin' , '2021-05-24 05:35:29.445+00');
+
+INSERT INTO employee (employee_id, username, email, password, created_on, role, last_seen) VALUES ('b5a07f3e-95b0-4ff4-8464-07ddb6fffdec'  ,  'caleb'  ,  'caleb@email.com'  ,  '$argon2i$v=19$m=4096,t=3,p=1$SPsqXdyBVjuUJNEjIoYcyw$z1kbLIPb3K/83AnMNQpJKosm//r/e9xw6DwIK+btzYqtaOhFrmzm9Q2PGHnj1RU1+eUMNO2TyDf1QqyvwvbO+Zgao+NwXPqh'  ,  '2021-05-13 00:24:49.402+00'   , 'admin'  ,  '2021-05-24 05:36:50.544+00');
+
+INSERT INTO employee (employee_id, username, email, password, created_on, role, last_seen) VALUES ('deba8d02-3c12-4dca-9636-b3f7c2b8f7e8'  , 'employeeX'   , 'email@email.com'   , '$argon2i$v=19$m=4096,t=3,p=1$IMOqcc0nlhKRowVWyN/Ncw$Q3mBhl3vmzyzOWwlhNUR0L95ovEHejSgfEXYlxd5ZhZiGFxvbdBqE3K5fyQQiPrjHi0T/njEyOYXBZxM6cGc78wz/jIiL19t'   , '2021-05-24 18:45:38.227+00'  ,  'common'  ,  '2021-05-24 18:45:38.227+00');
+
+INSERT INTO employee (employee_id, username, email, password, created_on, role, last_seen) VALUES ('9ec08c2b-f122-433f-89c1-1025c901f085'  ,  'EduPats'   , 'respaldoedupats@gmail.com' , '$argon2i$v=19$m=4096,t=3,p=1$RDT+u0bjOyMVIza6zSQQPg$MazBYff/3fcAJpOcJdK1NpeMTq39wmQtyszw3STIbFEMAmfA0tFvMReQrOgBI/qB0wxKZIYpcSBHWEx4zEeYEIoDMfVQIEvU'  ,  '2021-05-24 21:11:43.511+00'  ,  'superior'  ,  '2021-05-24 21:28:47.02+00');
+
+INSERT INTO employee (employee_id, username, email, password, created_on, role, last_seen) VALUES ('b2ad44cf-fc4e-4ddf-921f-6b2a99c49be5'  ,  'admin'   , 'admin@email.com'  ,  '$argon2i$v=19$m=16,t=2,p=1$OERjSzNPTFVuSkxyNVg0Mg$1GZFREtDj574gFCNU2Bl+fIt9AH0O6g9vUrEJ1QWF31rlSjjmf9kC7//fa5JMK9Nw0H2QXYw5F27+YTBLaO+EBl0PVr26N3P'   , '2021-05-14 05:27:42.559672+00'  , 'admin'  ,  '2021-05-24 22:05:53.324+00');
+
+
+INSERT INTO dish (dish_id, dish_name, dish_price, quantity, dish_image) VALUES  (1  ,  'Hamburguesa'  ,  '$49.99'  ,  10  ,  'https://media.timeout.com/images/105296476/image.jpg');
+
+
+INSERT INTO order_request (order_id, total, ship_addres, ship_postal_code, order_date) VALUES ('049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  '$99.98'  ,  'Vista Boulevard 320'   , '67123'  , '2021-05-24 21:49:09.377+00');
+
+
+INSERT INTO order_details (dish_id, order_id, amount) VALUES (1  ,  '049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  2);
