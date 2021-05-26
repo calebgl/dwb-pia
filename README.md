@@ -35,3 +35,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 1. Dentro de la carpeta del proyecto ejecutamos en la consola `yarn start`.
 
 1. En el navegador visitar la ruta http://localhost:3000.
+
+### Extra
+
+Hicimos el deploy en https://dwb-pia-database.herokuapp.com
