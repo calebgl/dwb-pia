@@ -13,8 +13,10 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  // Validación para los diferentes campos
   app.useGlobalPipes(new ValidationPipe());
 
+  // Setup de Swagger
   const config = new DocumentBuilder()
     .setTitle('Backend-API')
     .setDescription('Description of API')
@@ -26,6 +28,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('/', app, document);
 
+  // Habilitar CORS
   app.enableCors();
 
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
