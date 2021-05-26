@@ -5,7 +5,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 ## **Integrantes**
 
 | Matrícula | Nombre                           |
-| --------- | --------------------------------: |
+| --------- | ------------------------------------------------------- |
 | 1844214   | Mario Eduardo Lara Loredo        |
 | 1841414   | José Eduardo González Barbosa    |
 | 1811684   | Yaziel Gómez Torres              |
