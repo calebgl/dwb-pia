@@ -2,12 +2,10 @@
 
 El objetivo de este proyecto es simular el backend dedicado para un restaurante de comida rápida. De manera que permita añadir, visualizar, modificar y borrar platillos, ordenes y empleados del restaurante, usando diferentes métodos de seguridad como **JWT Token** y **CORS**. también incluye una pequeña interfaz que funciona como fronted hecha con ayuda de **Swagger**, que permite visualizar los elementos de una mejor manera.
 
-<br/>
-
 ## **Integrantes**
 
 | Matrícula | Nombre                           |
-| --------- | -------------------------------- |
+| --------- | ------------------------------------------------------- |
 | 1844214   | Mario Eduardo Lara Loredo        |
 | 1841414   | José Eduardo González Barbosa    |
 | 1811684   | Yaziel Gómez Torres              |
@@ -17,20 +15,13 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 | 1871138   | Alexis Darien Zúñiga Vera        |
 | 1845935   | Angel Caleb Guerrero Luna        |
 
-<br/>
-<br/>
-
 ## **Proceso de instalación**
-
-<br/>
 
 ### Base de datos
 
 1. Instalar [PostgreSQL y PgAdmin 4](https://www.postgresql.org/download/).
 1. Generar una conexión local (recordar el usuario y contraseña).
 1. Ejecutar el script ubicado en `dwb-pia/database.sql`.
-
-<br/>
 
 ### Backend
 
