@@ -1,3 +1,5 @@
+SET TIME ZONE 'utc';
+
 -- CreateTable
 CREATE TABLE "dish" (
     "dish_id" SERIAL NOT NULL,
@@ -88,3 +90,5 @@ INSERT INTO order_request (order_id, total, ship_addres, ship_postal_code, order
 
 
 INSERT INTO order_details (dish_id, order_id, amount) VALUES (1  ,  '049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  2);
+
+SET TIME ZONE
