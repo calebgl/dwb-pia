@@ -41,4 +41,4 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 Hicimos el deploy en https://dwb-pia-database.herokuapp.com
 
 
-> **Nota**: Las colecciones del postman se encuentran dentro del repositorio. Asimismo, la documentación de cada endpoint con su respectiva imagen de postman
+> **Nota**: Las colecciones del postman se encuentran dentro del repositorio. Asimismo, la documentación de cada endpoint con su respectiva imagen de postman.
