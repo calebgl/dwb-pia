@@ -5,7 +5,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 ## **Integrantes**
 
 | Matrícula | Nombre                           |
-| --------- | ------------------------------------------------------- |
+| --------- | -------------------------------- |
 | 1844214   | Mario Eduardo Lara Loredo        |
 | 1841414   | José Eduardo González Barbosa    |
 | 1811684   | Yaziel Gómez Torres              |
@@ -21,6 +21,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 
 1. Instalar [PostgreSQL y PgAdmin 4](https://www.postgresql.org/download/).
 1. Generar una conexión local (recordar el usuario y contraseña).
+1. Crear una base de datos (recordar el nombre)
 1. Ejecutar el script ubicado en `dwb-pia/database.sql`.
 
 ### Backend
@@ -30,6 +31,7 @@ El objetivo de este proyecto es simular el backend dedicado para un restaurante 
 
 1. El archivo ubicado em `dwb-pia/.env.sample` se renombra a `.env`. Este contrendrá el _connection string_ el cual hay que editar acorde a la información de tu base de datos. Establezca el `HASH_LENGTH=72` para un correcto funcionanmiento.
 
+1. Dentro de la carpeta del proyecto ejecutamos en la consola `yarn install`.
 1. Dentro de la carpeta del proyecto ejecutamos en la consola `yarn start`.
 
 1. En el navegador visitar la ruta http://localhost:3000.
