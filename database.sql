@@ -86,7 +86,7 @@ INSERT INTO employee (employee_id, username, email, password, created_on, role, 
 INSERT INTO dish (dish_id, dish_name, dish_price, quantity, dish_image) VALUES  (1  ,  'Hamburguesa'  ,  '$49.99'  ,  10  ,  'https://media.timeout.com/images/105296476/image.jpg');
 
 
-INSERT INTO order_request (order_id, total, ship_addres, ship_postal_code, order_date) VALUES ('049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  '$99.98'  ,  'Vista Boulevard 320'   , '67123'  , '2021-05-24 21:49:09.377+00');
+INSERT INTO order_request (order_id, total, ship_address, ship_postal_code, order_date) VALUES ('049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  '$99.98'  ,  'Vista Boulevard 320'   , '67123'  , '2021-05-24 21:49:09.377+00');
 
 
 INSERT INTO order_details (dish_id, order_id, amount) VALUES (1  ,  '049a5f19-d5f7-4da2-8ef8-c872ae83dddf'  ,  2);
