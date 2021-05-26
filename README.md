@@ -42,4 +42,4 @@ Hicimos el deploy en https://dwb-pia-database.herokuapp.com
 
 <br/>
 
-> **Nota**: Las colecciones del postman se encuentran dentro del repositorio. Asimismo, la documentación de cada endpoint con su respectiva imagen de postman.
+> **Nota**: Las colecciones de Postman se encuentran dentro del repositorio. Asimismo, la documentación de cada endpoint con su respectiva imagen verificando su funcionamiento.
